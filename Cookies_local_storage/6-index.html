@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session Storage</title>
+  </head>
+  <body>
+    <script>
+      const availableItems = ["Shampoo", "Soap", "Sponge", "Water"];
+
+      function addItemToCart(item) {
+        sessionStorage.setItem(item, true);
+      }
+
+      function createStore() {
+        const list = document.createElement("ul");
+
+        availableItems.forEach(function (item) {
+          const listItem = document.createElement("li");
+
+          listItem.textContent = item;
+          listItem.onclick = function () {
+            addItemToCart(item);
+          };
+          list.appendChild(listItem);
+        });
+
+        document.body.appendChild(list);
+      }
+
+      function displayCart() {
+        const cartItems = availableItems.filter(function (item) {
+          return sessionStorage.getItem(item) !== null;
+        });
+
+        if (cartItems.length === 0) {
+          return;
+        }
+
+        const message = document.createElement("p");
+
+        message.textContent = `You previously had ${cartItems.length} items in your cart`;
+        document.body.appendChild(message);
+      }
+
+      if (typeof Storage === "undefined") {
+        alert("Sorry, your browser does not support Web storage. Try again with a better one");
+      } else {
+        createStore();
+        displayCart();
+      }
+    </script>
+  </body>
+</html>
